@@ -1,0 +1,78 @@
+server:
+  port: 8888 
+  servlet:
+    context-path: /demo
+spring:
+  application:
+    name: delivery-demo
+logging:
+  level:
+    ROOT: INFO 
+default:
+  gateway:
+    offline: 
+      voucher: http://localhost:8888/demo/delivery/v1/voucher/{voucher}?key=apikey
+    online: 
+      voucher: https://mynt-exam.mocklab.io/voucher/{voucher}?key=apikey
+    voucher-api-key: apikey
+voucher:
+  discounts:
+    MYNT: 10.00 
+    GFI: 20.00
+    skdlks: 30.00   
+  expiries:
+    MYNT: 2024-08-04
+    GFI: 2024-08-04
+    skdlks: 2024-08-04 
+priority-rules:
+  rules:
+    - priority: 1
+      rule-name: "Reject"
+      conditions:
+        - name: "Weight exceeds 50kg"
+          description: "Heavy Parcel"
+          type: "weight"
+          symbol: "kg"
+          min-value: "10"
+          max-value: "50"
+          fee: 0
+    - priority: 2
+      rule-name: "Heavy Parcel"
+      conditions:
+        - name: "Weight exceeds 10kg"
+          description: "PHP 20 * Weight (kg)"
+          type: "weight"
+          symbol: "kg"
+          min-value: "1"
+          max-value: "10"
+          fee: 20
+    - priority: 3
+      rule-name: "Small Parcel"
+      conditions:
+        - name: "Volume is less than 1500 cm 3"
+          description: "PHP 0.03 * Volume"
+          type: "volume"
+          symbol: "cm"
+          min-value: "1"
+          max-value: "1500"
+          fee: 0.03
+    - priority: 4
+      rule-name: "Medium Parcel"
+      conditions:
+        - name: "Volume is less than 2500 cm 3"
+          description: "PHP 0.04 * Volume"
+          type: "volume"
+          symbol: "cm"
+          min-value: "1500"
+          max-value: "2500"
+          fee: 0.04
+    - priority: 5
+      rule-name: "Large Parcel"
+      conditions:
+        - name: ""
+          description: "PHP 0.04 * Volume"
+          type: "volume"
+          symbol: "cm"
+          min-value: "2500"
+          max-value: "5000"
+          fee: 0.05    
