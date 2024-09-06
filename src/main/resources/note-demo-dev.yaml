@@ -1,0 +1,11 @@
+server:
+  port: 8888 
+  servlet:
+    context-path: /demo
+spring:
+  application:
+    name: note-demo
+logging:
+  level:
+    ROOT: INFO 
+ 

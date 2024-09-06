@@ -5,32 +5,35 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.1</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<version>3.3.3</version>
+		<relativePath /> 
 	</parent>
-	<groupId>delivery.demo</groupId>
-	<artifactId>delivery.demo</artifactId>
+	<groupId>note.demo</groupId>
+	<artifactId>note.demo</artifactId>
 	<!--version>0.0.1-SNAPSHOT</version-->
-	<name>delivery-demo</name>
+	<name>note-demo</name>
 	<description>Demo project for Spring Boot</description>   
     
 
 	<properties>
-        <delivery.common.config-systemPath>C:\\Users\\PreciousS\\Documents\\workspace-palawan-card-bill\\STS17-dev\\delivery-demo\\ext\\deliver-common-config-0.0.1-SNAPSHOT.jar</delivery.common.config-systemPath>
 		<java.version>17</java.version>
 	</properties>
+	
 	<dependencies>
         <dependency>
 		    <groupId>org.projectlombok</groupId>
 		    <artifactId>lombok</artifactId>
 		    <scope>provided</scope>
 		</dependency>
+
+        <!-- Common Dependencies -->
+        
         <dependency>
-        	<groupId>com.delivery.common.config</groupId>
-        	<artifactId>deliver-common-config</artifactId>
+        	<groupId>com.boring.common</groupId>
+        	<artifactId>core</artifactId>
         	<version>0.0.1-SNAPSHOT</version>
-        	 <scope>compile</scope>
         </dependency>
+        
 	</dependencies>
 
 	<repositories>
@@ -41,18 +44,49 @@
 	</repositories>
 
 	<build>
-		<finalName>delivery-demo</finalName>
+		<finalName>note-demo</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
+					<execution>
+						<id>distro-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>src/main/assembly/assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.8</version>
+				<executions>
+					<execution>
+						<id>jacoco-initialize</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

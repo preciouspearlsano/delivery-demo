@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: note-demo-deployment
+  labels:
+    app: note-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: note-demo
+  template:
+    metadata:
+      labels:
+        app: note-demo
+    spec:
+      containers:
+      - name: note-demo
+        image: your-dockerhub-username/note-demo:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1"
+        env:
+        - name: JAVA_OPTS
+          value: "-Xmx1024m -Xms512m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: note-demo-service
+spec:
+  selector:
+    app: note-demo
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer

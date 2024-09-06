@@ -1,0 +1,139 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8888/demo
+  description: Generated server url
+tags:
+- name: Note Demo APIs
+  description: "Create a RESTful API that allows users to create, retrieve, update,\
+    \ and delete notes. Each note can consist of a title and a body."
+paths:
+  /notes/{id}:
+    get:
+      tags:
+      - Note Demo APIs
+      summary: Retrieve a specific note by ID.
+      operationId: getById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful reponse
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+    put:
+      tags:
+      - Note Demo APIs
+      summary: Update a specific note.
+      operationId: update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NoteRequest"
+        required: true
+      responses:
+        "200":
+          description: successful reponse
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+    delete:
+      tags:
+      - Note Demo APIs
+      summary: Delete a specific note.
+      operationId: delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful reponse
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+  /notes:
+    get:
+      tags:
+      - Note Demo APIs
+      summary: Retrieve all notes.
+      operationId: getAll
+      responses:
+        "200":
+          description: successful reponse
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+    post:
+      tags:
+      - Note Demo APIs
+      summary: Create a new note.
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NoteRequest"
+        required: true
+      responses:
+        "200":
+          description: successful reponse
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+components:
+  schemas:
+    NoteRequest:
+      required:
+      - content
+      - title
+      type: object
+      properties:
+        title:
+          maxLength: 100
+          minLength: 0
+          type: string
+        content:
+          type: string
+    Note:
+      type: object
+      properties:
+        statusCode:
+          type: string
+        statusDescription:
+          type: string
+        errorCode:
+          type: string
+        errorDescription:
+          type: string
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        content:
+          type: string
